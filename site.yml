@@ -1,7 +1,7 @@
 ---
 - hosts: all
   roles:
-    - role: naglik.dev-user-env
+    - role: naglik.unix-user-env
       dev_user_env_users:
         - name: tnaglo
           comment: 'Tomasz Naglo'
