@@ -1,2 +1,2 @@
 ---
-- src: naglik.unix-user-env
+- src: naglik.ansible_role_unix_user_env
