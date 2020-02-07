@@ -1,5 +1,6 @@
 # Ansible Managed Workspace
-Workspace configuration using the ansible role: naglik.unix-user-env
+
+Workspace configuration using the ansible role: tnaglo.unix-user-env
 
 # Dependencies
 - ansible

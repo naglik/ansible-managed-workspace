@@ -2,11 +2,11 @@
 - hosts: all
   tasks:
   - include_role:
-      name: naglik.ansible_role_unix_user_env
+      name: tnaglo.ansible_role_unix_user_env
     vars:
       dev_user_env_users:
-      - name: naglik
-        comment: 'Tomasz Naglo'
+      - name: tnaglo
+        comment: 'Tomasz Nagło'
         shell: '/bin/zsh'
         tmux_config_repo: 'https://github.com/gpakosz/.tmux'
-        local_configs_repo: 'https://github.com/naglik/.local-configs.git'
+        local_configs_repo: 'https://github.com/tnaglo/.local-configs.git'
