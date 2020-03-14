@@ -1,12 +1,15 @@
 ---
 - hosts: all
+  become: true
+
   tasks:
     - include_role:
         name: tnaglo.ansible_role_unix_user_env
       vars:
         dev_user_env_users:
           - name: tnaglo
-            comment: 'Tomasz Nagło'
+            comment: 'Tomasz Naglo'
+            public_key: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCU6he9Zkt6mWtqOsI/Ddq2zdVA5/dEzqBZm3t9fXDrN7Go6NXkijxuHK1vMHW1W9aUGmDzW/j0VoEmNsr+Gz6/edbdkBiTUm3Gp3VW9u3m9a5kA0vbpj3SNUZpv33A+dqsAMD9FFI87bDxnxVuM8ei2I+AQi841Md/5HERWeP87pCnkUKzrxGTuI7MuW7eIJCH4w5Hw9TNjJvSzZ0kFAjnmjApJT9DNlmVRRKMW2HAMRuRaNzqfcUDYZuEP1LTrUmbP2nZRHbkunJIa8pKwctulXcK4KXbsMJB5YKOOVIBu6vy16DGUdbXJA8B6PyWeYE2XzOEmUsb5D/A0STFjlMuoDquEoPIDUQI0yfEcNy4has8njCND2oU1e8Nj4dlD378I2nPZY3esx0i564SpK7ht4ChEsafHGbHSB+Dta5J+NV2PS1xM2ccdBOHDXr55R4PZOEwwTYrzBrAd2vJyOehQOfxRY0/FLsbR/3hK8fHJwrOheaBDg7+3IHbVHs+lvkO2+gml7a9V5cLcHUwMCWgB4TYxEkxphdc0PeyuGMK2fpJl/RFLomFig+MDuf8BhijkBRbazFdgsAEEpbGHiT6dihmbriYnpFEvJ5/ME3dfraGlAkl/fzzwT8rFn1XZR7tXpHY802l7/icTCmH01hyUvUrzzuWC6zeRyaX+Xkk2w== tnaglo@linux.fritz.box'
             shell: '/bin/zsh'
             tmux_config_repo: 'https://github.com/gpakosz/.tmux'
             local_configs_repo: 'https://github.com/tnaglo/.local-configs.git'
