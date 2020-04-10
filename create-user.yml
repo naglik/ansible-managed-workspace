@@ -1,0 +1,39 @@
+---
+- hosts: all
+  vars:
+    users:
+      - name: tnaglo
+        comment: 'Tomasz Naglo'
+        public_key: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCU6he9Zkt6mWtqOsI/Ddq2zdVA5/dEzqBZm3t9fXDrN7Go6NXkijxuHK1vMHW1W9aUGmDzW/j0VoEmNsr+Gz6/edbdkBiTUm3Gp3VW9u3m9a5kA0vbpj3SNUZpv33A+dqsAMD9FFI87bDxnxVuM8ei2I+AQi841Md/5HERWeP87pCnkUKzrxGTuI7MuW7eIJCH4w5Hw9TNjJvSzZ0kFAjnmjApJT9DNlmVRRKMW2HAMRuRaNzqfcUDYZuEP1LTrUmbP2nZRHbkunJIa8pKwctulXcK4KXbsMJB5YKOOVIBu6vy16DGUdbXJA8B6PyWeYE2XzOEmUsb5D/A0STFjlMuoDquEoPIDUQI0yfEcNy4has8njCND2oU1e8Nj4dlD378I2nPZY3esx0i564SpK7ht4ChEsafHGbHSB+Dta5J+NV2PS1xM2ccdBOHDXr55R4PZOEwwTYrzBrAd2vJyOehQOfxRY0/FLsbR/3hK8fHJwrOheaBDg7+3IHbVHs+lvkO2+gml7a9V5cLcHUwMCWgB4TYxEkxphdc0PeyuGMK2fpJl/RFLomFig+MDuf8BhijkBRbazFdgsAEEpbGHiT6dihmbriYnpFEvJ5/ME3dfraGlAkl/fzzwT8rFn1XZR7tXpHY802l7/icTCmH01hyUvUrzzuWC6zeRyaX+Xkk2w== tnaglo@linux.fritz.box'
+        shell: '/bin/zsh'
+
+  tasks:
+    - name: Create unix user
+      user:
+        append: yes
+        name: '{{ item.name }}'
+        shell: '{{ item.shell|default("/bin/zsh") }}'
+        groups: '{{ item.groups|default(omit) }}'
+        uid: '{{ item.uid|default(omit) }}'
+        password: '{{ item.password|default(omit) }}'
+        comment: '{{ item.comment|default(omit) }}'
+        update_password: on_create
+      register: user_creation
+      loop: '{{ users|flatten(levels=1) }}'
+
+    - name: Set authorized key for user
+      authorized_key:
+        user: '{{ item.name }}'
+        key: '{{ item.public_key }}'
+        state: present
+      loop: '{{ users|flatten(levels=1) }}'
+
+    - name: Unlock password, set it to empty
+      command: chage -d 0 {{ item.item.name }}
+      when: item.changed == true
+      loop: '{{ user_creation.results|flatten(levels=1) }}'
+
+    - name: Expire password
+      command: passwd -d {{ item.item.name }}
+      when: item.changed == true
+      loop: '{{ user_creation.results|flatten(levels=1) }}'

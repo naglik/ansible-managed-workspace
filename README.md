@@ -1,10 +1,6 @@
 # Ansible Managed Workspace
 
-Workspace configuration using the ansible role: tnaglo.ansible_role_unix_user_env
-
-## ToDo
-
-- [ ] Switch to new role (TDB) instead of [tnaglo.ansible_role_unix_user_env](https://galaxy.ansible.com/tnaglo/ansible_role_unix_user_env)
+Workspace configuration using the ansible role: tnaglo.unix_home_setup
 
 ## Dependencies
 
@@ -18,6 +14,10 @@ To install the user and his configure his environment on the local machine you f
 
 `ansible-galaxy install -r roles/requirements.yml`
 
-and then run:
+If the user does not exist yet, run:
 
-`ansible-playbook -i "localhost," -c local site.yml --ask-become-pass`
+`ansible-playbook -i "localhost," -c local create-user.yml -b -K`
+
+Next run:
+
+`ansible-playbook -i "localhost," -c local setup-home.yml`
